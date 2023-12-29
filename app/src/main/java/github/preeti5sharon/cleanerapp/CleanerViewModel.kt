@@ -13,13 +13,9 @@ import javax.inject.Inject
 @HiltViewModel
 class CleanerViewModel @Inject constructor(private val cleanerDao: CleanerDao) : ViewModel() {
 
-    suspend fun getSpecificationList(id: Int): Flow<List<CleanerModel.Specification>> = flow {
+    suspend fun getSpecificationList(id: String): Flow<List<CleanerModel.Specification>> = flow {
         val radioList = cleanerDao.getRadioItems()
         val checkList = cleanerDao.getCleaningListForBHK(id)
-
-
-        println(radioList)
-        println(checkList)
         emit(radioList + checkList)
     }.stateIn(viewModelScope)
 
@@ -29,9 +25,12 @@ class CleanerViewModel @Inject constructor(private val cleanerDao: CleanerDao) :
         val jsonObject = stringData?.let { jsonAdapter.fromJson(it) }
 
         viewModelScope.launch {
-            cleanerDao.insertDatabase(
-                jsonObject?.specifications.orEmpty().filterNotNull(),
-            )
+            val itemsExist = cleanerDao.itemExists()
+            if (itemsExist == false) {
+                cleanerDao.insertDatabase(
+                    jsonObject?.specifications.orEmpty().filterNotNull(),
+                )
+            }
         }
     }
 }

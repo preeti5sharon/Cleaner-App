@@ -1,5 +1,6 @@
 package github.preeti5sharon.cleanerapp
 
+import android.content.ClipData
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
@@ -18,9 +19,10 @@ data class CleanerModel(
     @JsonClass(generateAdapter = true)
     @Entity(tableName = "cleaning_package")
     data class Specification(
+        @PrimaryKey(autoGenerate = true)
+        val primaryKey: Int = 0,
         @Json(name = "_id")
-        @PrimaryKey(autoGenerate = false)
-        val id: String,
+        val id: String?,
         val isAssociated: Boolean?,
         val isParentAssociate: Boolean?,
         @Json(name = "is_required")

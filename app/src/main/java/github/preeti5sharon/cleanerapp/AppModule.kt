@@ -24,7 +24,8 @@ object AppModule {
         context.applicationContext,
         CleanerDatabase::class.java,
         "cleaner_db",
-    ).addTypeConverter(CleanerConverter(moshi)).build()
+    ).addTypeConverter(CleanerConverter(moshi)).fallbackToDestructiveMigration()
+        .build()
 
     @Provides
     @Singleton

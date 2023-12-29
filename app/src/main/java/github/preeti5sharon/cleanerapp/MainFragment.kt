@@ -36,7 +36,7 @@ class MainFragment : Fragment() {
         viewModel.stringToJsonObject(stringData)
 
         lifecycleScope.launch {
-            viewModel.getSpecificationList(2)
+            viewModel.getSpecificationList("621da764abb8a52242c181e5")
                 .collectLatest { specificationList ->
                     val mergedList = mutableListOf<RvItemType>()
 
