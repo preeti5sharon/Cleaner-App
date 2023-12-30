@@ -63,11 +63,11 @@ class CleanerAdapter() :
         } else if (item is RvItemType.ListItem) {
             val binding = RvItemListBinding.bind(holder.itemView)
             if (item.itemType == 1) {
-                binding.radiobutton.text = item.item.name.toString()
+                binding.radiobutton.text = item.item.name?.joinToString()
                 binding.price.text = item.item.price.toString()
                 binding.radiobutton.visibility = View.VISIBLE
             } else {
-                binding.checkbox.text = item.item.name.toString()
+                binding.checkbox.text = item.item.name?.joinToString()
                 binding.price.text = item.item.price.toString()
                 binding.checkbox.visibility = View.VISIBLE
             }

@@ -8,7 +8,6 @@
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
-        android:text="Apartment Size"
         android:textSize="25sp"
         android:textStyle="bold"
         android:layout_height="wrap_content"
@@ -18,28 +17,31 @@
 
     <androidx.appcompat.widget.AppCompatCheckBox
         android:id="@+id/checkbox"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="1 BHK"
         android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/price"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <RadioButton
         android:id="@+id/radiobutton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:text="1 BHK"
         android:textSize="15sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toStartOf="@+id/price"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/title"
-        android:visibility="gone"/>
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/price"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="4000"
         android:textSize="15sp"

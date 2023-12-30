@@ -26,7 +26,7 @@ class CleanerViewModel @Inject constructor(private val cleanerDao: CleanerDao) :
 
         viewModelScope.launch {
             val itemsExist = cleanerDao.itemExists()
-            if (itemsExist == false) {
+            if (!itemsExist) {
                 cleanerDao.insertDatabase(
                     jsonObject?.specifications.orEmpty().filterNotNull(),
                 )
