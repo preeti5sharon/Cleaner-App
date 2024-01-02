@@ -66,10 +66,12 @@ class CleanerAdapter() :
                 binding.radiobutton.text = item.item.name?.joinToString()
                 binding.price.text = item.item.price.toString()
                 binding.radiobutton.visibility = View.VISIBLE
+                binding.checkbox.visibility = View.GONE
             } else {
                 binding.checkbox.text = item.item.name?.joinToString()
                 binding.price.text = item.item.price.toString()
                 binding.checkbox.visibility = View.VISIBLE
+                binding.radiobutton.visibility = View.GONE
             }
         }
     }
