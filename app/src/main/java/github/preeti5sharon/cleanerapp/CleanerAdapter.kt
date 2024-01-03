@@ -3,6 +3,8 @@ package github.preeti5sharon.cleanerapp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
+import android.widget.RadioButton
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -12,13 +14,19 @@ import github.preeti5sharon.cleanerapp.databinding.RvItemListBinding
 class CleanerAdapter() :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
+    private var lastRadioSelected: RadioButton? = null
+    private var lastCheckboxSpecificationId = mutableMapOf<String, CheckBox>()
+
     companion object {
         const val VIEW_TYPE_ONE = 1
         const val VIEW_TYPE_TWO = 2
     }
 
     class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view)
-    class ListItemViewHolder(view: View) : RecyclerView.ViewHolder(view)
+    class ListItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        fun bind() {
+        }
+    }
 
     class PackageDiffer : DiffUtil.ItemCallback<RvItemType>() {
         override fun areItemsTheSame(
@@ -67,11 +75,29 @@ class CleanerAdapter() :
                 binding.price.text = item.item.price.toString()
                 binding.radiobutton.visibility = View.VISIBLE
                 binding.checkbox.visibility = View.GONE
+
+                binding.radiobutton.setOnClickListener {
+                    if (lastRadioSelected != null) {
+                        lastRadioSelected?.isChecked = false
+                    }
+                    lastRadioSelected = binding.radiobutton
+                }
             } else {
                 binding.checkbox.text = item.item.name?.joinToString()
                 binding.price.text = item.item.price.toString()
                 binding.checkbox.visibility = View.VISIBLE
                 binding.radiobutton.visibility = View.GONE
+
+                binding.checkbox.setOnClickListener {
+                    val groupId = item.item.specificationGroupId
+                    if (lastCheckboxSpecificationId.containsKey(groupId)) {
+                        lastCheckboxSpecificationId.apply {
+                            get(groupId)?.isChecked = false
+                            remove(groupId)
+                        }
+                    }
+                    lastCheckboxSpecificationId.put(groupId.orEmpty(), binding.checkbox)
+                }
             }
         }
     }
