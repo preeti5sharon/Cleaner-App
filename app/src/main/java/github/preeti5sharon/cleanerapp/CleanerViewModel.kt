@@ -13,9 +13,13 @@ import javax.inject.Inject
 @HiltViewModel
 class CleanerViewModel @Inject constructor(private val cleanerDao: CleanerDao) : ViewModel() {
 
+    private var radioList = mutableListOf<CleanerModel.Specification>()
     suspend fun getSpecificationList(id: String): Flow<List<CleanerModel.Specification>> = flow {
-        val radioList = cleanerDao.getRadioItems()
+        if (radioList.isEmpty()) {
+            radioList = cleanerDao.getRadioItems().toMutableList()
+        }
         val checkList = cleanerDao.getCleaningListForBHK(id)
+
         emit(radioList + checkList)
     }.stateIn(viewModelScope)
 

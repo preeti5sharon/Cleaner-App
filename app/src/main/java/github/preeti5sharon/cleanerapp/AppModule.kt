@@ -1,12 +1,14 @@
 package github.preeti5sharon.cleanerapp
 
 import android.content.Context
+import androidx.fragment.app.Fragment
 import androidx.room.Room
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.android.scopes.FragmentScoped
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 

@@ -11,13 +11,15 @@ import dagger.hilt.android.AndroidEntryPoint
 import github.preeti5sharon.cleanerapp.databinding.FragmentMainBinding
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), OnClickApartmentSize {
+
+    @Inject
+    lateinit var cleanerAdapter: CleanerAdapter
     private val viewModel: CleanerViewModel by viewModels()
     private var binding: FragmentMainBinding? = null
-    private val cleanerAdapter = CleanerAdapter()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,8 +36,24 @@ class MainFragment : Fragment() {
 
         viewModel.stringToJsonObject(stringData)
 
+        getCleaningDetails("621da764abb8a52242c181e5")
+
+        binding?.recyclerView?.adapter = cleanerAdapter
+    }
+
+    private fun readJsonFromAssets(): String? {
+        return context?.assets?.open("item_data.json")?.bufferedReader().use { it?.readText() }
+    }
+
+    override fun invoke(specGroupId: String?) {
+        if (specGroupId != null) {
+            getCleaningDetails(specGroupId)
+        }
+    }
+
+    private fun getCleaningDetails(specGroupId: String) {
         lifecycleScope.launch {
-            viewModel.getSpecificationList("621da764abb8a52242c181e5")
+            viewModel.getSpecificationList(specGroupId)
                 .collectLatest { specificationList ->
                     val mergedList = mutableListOf<RvItemType>()
 
@@ -55,10 +73,8 @@ class MainFragment : Fragment() {
                     cleanerAdapter.asyncDiffer.submitList(mergedList)
                 }
         }
-        binding?.recyclerView?.adapter = cleanerAdapter
     }
 
-    private fun readJsonFromAssets(): String? {
-        return context?.assets?.open("item_data.json")?.bufferedReader().use { it?.readText() }
+    private fun getHeaderItem() {
     }
 }

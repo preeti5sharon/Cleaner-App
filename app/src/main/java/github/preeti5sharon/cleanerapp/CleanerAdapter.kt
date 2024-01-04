@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import github.preeti5sharon.cleanerapp.databinding.RvItemBinding
 import github.preeti5sharon.cleanerapp.databinding.RvItemListBinding
 
-class CleanerAdapter() :
+class CleanerAdapter(private val onClickApartmentSize: OnClickApartmentSize) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var lastRadioSelected: RadioButton? = null
@@ -23,10 +23,7 @@ class CleanerAdapter() :
     }
 
     class HeaderViewHolder(view: View) : RecyclerView.ViewHolder(view)
-    class ListItemViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind() {
-        }
-    }
+    class ListItemViewHolder(view: View) : RecyclerView.ViewHolder(view)
 
     class PackageDiffer : DiffUtil.ItemCallback<RvItemType>() {
         override fun areItemsTheSame(
@@ -75,12 +72,12 @@ class CleanerAdapter() :
                 binding.price.text = item.item.price.toString()
                 binding.radiobutton.visibility = View.VISIBLE
                 binding.checkbox.visibility = View.GONE
-
                 binding.radiobutton.setOnClickListener {
                     if (lastRadioSelected != null) {
                         lastRadioSelected?.isChecked = false
                     }
                     lastRadioSelected = binding.radiobutton
+                    onClickApartmentSize(item.item.id)
                 }
             } else {
                 binding.checkbox.text = item.item.name?.joinToString()
