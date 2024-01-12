@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.RadioButton
+import androidx.constraintlayout.widget.Group
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +17,7 @@ class CleanerAdapter(private val onClickApartmentSize: OnClickApartmentSize) :
 
     private var lastRadioSelected: RadioButton? = null
     private var lastCheckboxSpecificationId = mutableMapOf<String, CheckBox>()
+    private var lastGroupId: Int? = null
 
     companion object {
         const val VIEW_TYPE_ONE = 1
@@ -72,6 +74,8 @@ class CleanerAdapter(private val onClickApartmentSize: OnClickApartmentSize) :
                 binding.price.text = item.item.price.toString()
                 binding.radiobutton.visibility = View.VISIBLE
                 binding.checkbox.visibility = View.GONE
+                binding.group.visibility = View.GONE
+
                 binding.radiobutton.setOnClickListener {
                     if (lastRadioSelected != null) {
                         lastRadioSelected?.isChecked = false
@@ -92,8 +96,16 @@ class CleanerAdapter(private val onClickApartmentSize: OnClickApartmentSize) :
                             get(groupId)?.isChecked = false
                             remove(groupId)
                         }
+                        if (lastGroupId!=null){
+                            holder.itemView.findViewById<Group>(lastGroupId!!).setVisibility(View.GONE)
+                        }
                     }
                     lastCheckboxSpecificationId.put(groupId.orEmpty(), binding.checkbox)
+                    if (item.item.price != 0) {
+                        binding.group.visibility = View.VISIBLE
+                        binding.count.text = "1"
+                        lastGroupId = binding.group.id
+                    }
                 }
             }
         }
